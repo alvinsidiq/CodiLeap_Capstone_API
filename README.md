@@ -8,4 +8,13 @@ To run:
 bun run dev
 ```
 
+To run migration:
+```sh
+// generate migration
+bun run db:generate
+
+// run migration
+bun run db:migrate
+```
+
 open http://localhost:3000
