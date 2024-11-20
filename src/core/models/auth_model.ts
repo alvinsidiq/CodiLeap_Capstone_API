@@ -19,18 +19,22 @@ export const LoginRequest = z.object({
 export type RegisterResponseType = {
     id : number ,
     email : string,
+    status : string,
     createdAt : Date,
     updatedAt : Date,
 }
 
 // response login 
 export type LoginResponseType = {
+  accessToken: string;
+  refreshToken: string;
+  user: {
     id: number;
     email: string;
     createdAt: Date;
     updatedAt: Date;
   };
-  
+}
   
 // Type Definitions
 

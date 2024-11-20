@@ -7,6 +7,12 @@ import { HTTPException } from "hono/http-exception";
 import { StatusCodes } from "http-status-codes";
 import { ZodError } from "zod";
 import { routes } from "./route/index_route";
+import dotenv from "dotenv";
+
+
+
+
+dotenv.config();
 
 const app = new Hono();
 

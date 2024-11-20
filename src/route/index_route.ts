@@ -9,6 +9,7 @@ import userLearn from "./user_learn_route";
 import learningPathRoutes from "./learning_path_routes";
 import auth from "./auth_routes";
 
+
 export const routes = (app: Hono) => {
   app.use("*", logger());
   app.use("*", csrf({ origin: "localhost" }));
