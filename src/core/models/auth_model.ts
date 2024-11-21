@@ -1,49 +1,66 @@
 import { z } from "zod";
 
-// Validation Schemas register 
-export const RegisterRequest = z.object({
-  email: z.string().email({ message: "email should be a valid email" }),
-  password: z.string().min(8, { message: "password should be at least 8 characters" }),
-}).strict();
+export const RegisterRequest = z
+  .object({
+    email: z.string().email({ message: "Email should be a valid email" }),
+    password: z.string().min(8, { message: "Password should be at least 8 characters" }),
+  })
+  .strict();
 
+export const LoginRequest = z
+  .object({
+    email: z.string().email({ message: "Email should be a valid email" }),
+    password: z.string().min(8, { message: "Password is required" }),
+  })
+  .strict();
 
-// Validation Schemas login 
-export const LoginRequest = z.object({
-  email: z.string().email({ message: "email should be a valid email" }),
-  password: z.string().min(8, { message: "password is required" }),
-}).strict();
+  
+  export const RefreshTokenResponse = z.object({
+    access_token: z.string(),
+    token_type: z.literal("Bearer"),
+    expires_in: z.number(),
+    refresh_token: z.string(),
+    refresh_token_expires_in: z.number()
+  });
 
-// mendefinisikan response dari data yang di kirim 
+  export const LogoutResponse = z.object({
+    message: z.string(),
+    status: z.literal("OK"),
+    data: z.null()
+  });
+  
+  export type RefreshTokenResponseType = z.infer<typeof RefreshTokenResponse> & {
+    message: string;
+    status: string;
+  };
 
-//response register 
 export type RegisterResponseType = {
-    id : number ,
-    email : string,
-    status : string,
-    createdAt : Date,
-    updatedAt : Date,
-}
+  id: number;
+  email: string;
+  createdAt: Date;
+  updatedAt: Date;
+};
 
-// response login 
 export type LoginResponseType = {
   accessToken: string;
   refreshToken: string;
+  tokenType: string;
+  expiresIn: number;
+  refreshTokenExpiresIn: number;
   user: {
     id: number;
     email: string;
-    createdAt: Date;
-    updatedAt: Date;
   };
-}
-  
-// Type Definitions
+};
 
-//request type register
+export type JwtPayload = {
+  id: number;
+  email: string;
+  exp?: number;
+  iat?: number;
+};
+
+
 export type RegisterUserRequestType = z.infer<typeof RegisterRequest>;
-
-//request type login 
 export type LoginRequestType = z.infer<typeof LoginRequest>;
-
-
-
-
+export type LogoutResponseType = z.infer<typeof LogoutResponse>;

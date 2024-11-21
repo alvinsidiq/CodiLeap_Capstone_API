@@ -152,11 +152,14 @@ export const Lesson = pgTable("lesson", {
 
 // learning path
 export const LearningPath = pgTable("learning_path", {
-  learning_path_id: serial("learning_path_id").primaryKey(),
-  name: text("name").notNull(),
-  level: text("level").notNull(),
-  createdat: timestamp("createdat").defaultNow(),
-  updatedat: timestamp("updatedat").defaultNow(),
+  learning_path_id: serial("learning_path_id").primaryKey(), 
+  name: text("name").notNull(), 
+  description: text("description"),
+  level: text("level").notNull(), 
+  total_modules: integer("total_modules").notNull(), 
+  estimated_duration: text("estimated_duration").notNull(), 
+  createdat: timestamp("createdat").defaultNow(), 
+  updatedat: timestamp("updatedat").defaultNow(), 
 });
 
 // units

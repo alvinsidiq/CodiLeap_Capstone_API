@@ -1,43 +1,43 @@
-import * as jwt from "jsonwebtoken";
 
-// Obtain the secret key from environment variables
-const secret = process.env.JWT_SECRET;
+import * as jwt from 'jsonwebtoken';
+import { JwtPayload } from 'jsonwebtoken';
 
-if (!secret) {
-  throw new Error("JWT_SECRET is not defined in environment variables");
+interface TokenOptions {
+  expiresIn?: string;
 }
 
-// Define a type for payload
-interface TokenPayload {
-  id: string;
+interface CustomJwtPayload extends JwtPayload {
+  id: number;
 }
 
-// Function to sign a new access token
-export const signToken = (payload: TokenPayload): string => {
-  return jwt.sign(payload, secret, { expiresIn: "1h" });
+export const signToken = (
+  payload: { id: number }, 
+  options: TokenOptions = {}
+): string => {
+  const defaultOptions = { 
+    expiresIn: '1h' 
+  };
+  
+  const mergedOptions = { ...defaultOptions, ...options };
+  
+  return jwt.sign(
+    payload, 
+    process.env.JWT_SECRET!, 
+    mergedOptions
+  );
 };
 
-// Function to verify the access token
-export const verifyToken = (token: string): TokenPayload | null => {
+export const verifyToken = (token: string): CustomJwtPayload => {
   try {
-    return jwt.verify(token, secret) as TokenPayload;
+    return jwt.verify(
+      token, 
+      process.env.JWT_SECRET!
+    ) as CustomJwtPayload;
   } catch (error) {
-    if (error instanceof jwt.TokenExpiredError) {
-      throw new Error("Access token expired");
-    }
-    throw new Error("Invalid token");
+    throw new Error('Invalid or expired token');
   }
 };
 
-// Function to refresh an access token using a refresh token
-export const refreshToken = (refreshToken: string): string => {
-  try {
-    const decoded = jwt.verify(refreshToken, secret) as TokenPayload;
-    return signToken({ id: decoded.id }); // Generate a new access token
-  } catch (error) {
-    if (error instanceof jwt.TokenExpiredError) {
-      throw new Error("Refresh token expired");
-    }
-    throw new Error("Invalid refresh token");
-  }
+export const decodeToken = (token: string): CustomJwtPayload => {
+  return jwt.decode(token) as CustomJwtPayload;
 };

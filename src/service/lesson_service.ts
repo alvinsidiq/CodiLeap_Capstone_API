@@ -59,7 +59,7 @@ export const UpdateLesson  = async (id : number, data : UpdateAddLessonType ) =>
 };
 
 
-export const DeleteUserScreaning = async ( id : number) => {
+export const DeleteLesson = async ( id : number) => {
     try {
         const response = await db.delete(Lesson).where(eq(Lesson.lesson_id, id));
         return response;
