@@ -89,7 +89,7 @@ Response Body (Success) :
     "screeningResults": {
       "score": "integer",
       "strengths": ["string"],
-      "areasForImprovement": ["string"]
+     
     }
   }
 }
