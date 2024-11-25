@@ -6,7 +6,11 @@ import {
   text,
   timestamp,
   varchar,
+  json,
+  
 } from "drizzle-orm/pg-core";
+import { relations } from 'drizzle-orm';
+
 
 // string == text, string == varchar
 // klobisa pake **text** aja
@@ -51,7 +55,8 @@ export const Badge = pgTable("badge", {
   badge_id: serial("id").primaryKey(),
   title: text("title").notNull(),
   description: text("description"),
-  image: text("image").notNull(),
+  imageUrl: text("image_url").notNull(),
+  requirements: json("requirements").default([]),
   createdat: timestamp("createdat").defaultNow(),
   updatedat: timestamp("updatedat").defaultNow(),
 });
@@ -60,6 +65,8 @@ export const Badge = pgTable("badge", {
 export const UserBadge = pgTable("user_badge", {
   user_badge_id: serial("id").primaryKey(),
   user_id: integer("user_badge"),
+  badge_id: integer("badge_id"),
+  earnedAt: timestamp("earned_at").defaultNow(),
   createdat: timestamp("createdat").defaultNow(),
   updatedat: timestamp("updatedat").defaultNow(),
 });
@@ -103,26 +110,76 @@ export const Analytics = pgTable("analytics", {
 });
 
 // quiz
-export const Quiz = pgTable("quiz", {
-  quiz_id: serial("quiz_id").primaryKey(),
-  modul_id: integer("modul_id"),
-  user_id: integer("user_id"),
-  selected_answer_id: integer("selected_answer_id"),
-  correct_answer_id: integer("correct_answer_id"),
-  quiz_title: text("quiz_title").notNull(),
+export const questions = pgTable("quiz", {
+  questionId: serial("quiz_id").primaryKey(),
+  question: text('question').notNull(),
+  createdat: timestamp("createdat").defaultNow(),
+  updatedat: timestamp("updatedat").defaultNow(),
+  // modul_id: integer("modul_id"),
+  // user_id: integer("user_id"),
+  // selected_answer_id: integer("selected_answer_id"),
+  // correct_answer_id: integer("correct_answer_id"),
+  // quiz_title: text("quiz_title").notNull(),
+  
+});
+
+export const answers = pgTable('answers', {
+  id: serial('id').primaryKey(),
+  questionId: integer('question_id').references(() => questions.questionId),
+  answerText: text('answer_text').notNull(),
+  createdAt: timestamp('created_at').defaultNow(),
+  updatedat: timestamp("updatedat").defaultNow(),
+});
+
+// learning path
+export const LearningPath = pgTable("learning_path", {
+  learningPathId: serial("learning_path_id").primaryKey(), 
+  name: text("name").notNull(), 
+  description: text("description"),
+  level: text("level").notNull(), 
+  totalModules: integer("total_modules").notNull(), 
+  estimatedDuration: text("estimated_duration").notNull(), 
+  createdAt: timestamp("createdat").defaultNow(), 
+  updatedAt: timestamp("updatedat").defaultNow(), 
+});
+
+// user screaning resource
+export const screeningResults = pgTable("screening_results", {
+  screeningResultsId: serial("screeningResults_id").primaryKey(),
+  userId: integer("user_id"),
+  pathId: integer('path_id').references(() => LearningPath.learningPathId),
+  score: integer('score').notNull(),
+  strengths: json('strengths').notNull(),
+  quiz_id: integer("quiz_id"),
+  learningPathId: integer("learning_path_id"),
+  answers: json('answers').notNull(),
   createdat: timestamp("createdat").defaultNow(),
   updatedat: timestamp("updatedat").defaultNow(),
 });
 
-// user screaning resource
-export const UserScreaningResource = pgTable("user_screaning_resource", {
-  user_screaning_resource_id: serial("user_screaning_resource_id").primaryKey(),
-  user_id: integer("user_id"),
-  quiz_id: integer("quiz_id"),
-  learning_path_id: integer("learning_path_id"),
-  createdat: timestamp("createdat").defaultNow(),
-  updatedat: timestamp("updatedat").defaultNow(),
-});
+// Define relations
+export const questionsRelations = relations(questions, ({ many }) => ({
+  answers: many(answers),
+}));
+
+export const answersRelations = relations(answers, ({ one }) => ({
+  question: one(questions, {
+    fields: [answers.questionId],
+    references: [questions.questionId],
+  }),
+}));
+
+
+//Export All Tables and Relations
+export const dbSchema = {
+  questions,
+  answers,
+  LearningPath,
+  screeningResults,
+  questionsRelations,
+  answersRelations,
+};
+
 
 //quiz answer _choices
 export const QuizAnswerChoices = pgTable("quiz_answer_choices", {
@@ -136,10 +193,15 @@ export const QuizAnswerChoices = pgTable("quiz_answer_choices", {
 export const Modules = pgTable("modules", {
   module_id: serial("module_id").primaryKey(),
   name: text("name").notNull(),
+  description: varchar('description', { length: 1000 }),
   total_lesson: integer("total_lesson"),
+  completed_lessons: integer('completed_lessons').default(0),
+  learning_path_id: integer('learning_path_id').notNull(),
   createdat: timestamp("createdat").defaultNow(),
   updatedat: timestamp("updatedat").defaultNow(),
 });
+
+
 
 // lesson
 export const Lesson = pgTable("lesson", {
@@ -150,16 +212,13 @@ export const Lesson = pgTable("lesson", {
   updatedat: timestamp("updatedat").defaultNow(),
 });
 
-// learning path
-export const LearningPath = pgTable("learning_path", {
-  learning_path_id: serial("learning_path_id").primaryKey(), 
-  name: text("name").notNull(), 
-  description: text("description"),
-  level: text("level").notNull(), 
-  total_modules: integer("total_modules").notNull(), 
-  estimated_duration: text("estimated_duration").notNull(), 
-  createdat: timestamp("createdat").defaultNow(), 
-  updatedat: timestamp("updatedat").defaultNow(), 
+
+
+//learning_path screaning
+export const LearningPathScreaning = pgTable("learning_path_screening",{
+  screening_id : serial("screening_id").primaryKey(),
+   questionId : integer("question_id"),
+   selectedAnswerId : integer("selected_answer_id"),
 });
 
 // units

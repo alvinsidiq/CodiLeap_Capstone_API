@@ -37,17 +37,22 @@ Response Body (Success) :
 }
 ```
 
-Response Body (Unauthorized) :
+Response Body (bad request) :
 
 ```json
 {
   "status": "Bad Request",
-  "error": "invalid token",
+  "error": "invalid ID",
   "errors": null
 }
 ```
 
 ## Learning Path Screening
+eksion post 5 soal 
+-soal id : 1,2,3,4,5
+-pilihan jawaban : {pilihan jawaban 1234} request body object : 4
+format array 
+soal yang di jawab 
 
 Endpoint : POST /api/learning-paths/screening
 
@@ -58,6 +63,7 @@ description : This endpoint is used to screening a learning path for a user.
 Request Body :
 
 ```json
+-quest attemp ; jawaban user id   , pilihan jawaban selected  answer id  , quiz id 
 {
 "answers" : [
     {
@@ -74,6 +80,7 @@ Request Body :
 ```
 
 Response Body (Success) :
+// preprocessing
 
 ```json
 {
@@ -91,7 +98,7 @@ Response Body (Success) :
       "strengths": ["string"],
      
     }
-  }
+  } 
 }
 ```
 

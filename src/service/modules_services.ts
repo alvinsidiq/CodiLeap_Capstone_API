@@ -3,16 +3,14 @@ import { AddModulesType,UpdateModulesType } from '@/core/models/modules_model';
 import { Modules } from '@/core/db/schema/index_schema';
 import {eq} from 'drizzle-orm';
 
-
-
-
 export const AddModules = async (data : AddModulesType) => {
     try {
        const response = await db.insert(Modules)
        .values ({
       name : data.name,
       total_lesson : data.total_lesson,
-           })
+      learning_path_id : data.learning_path_id,
+                 })
 .returning();
 return response;
 

@@ -6,8 +6,6 @@ Endpoint : GET /api/badges/user/{userId}
 
 Description : This endpoint is used to get all user badges.
 
-- Authorization: Bearer {access_token}
-
 Response Body (Success) :
 
 ```json
@@ -18,7 +16,7 @@ Response Body (Success) :
     "earnedBadges": [
       {
         "id": "integer",
-        "title": "string",
+        "title": "string", 
         "description": "string",
         "imageUrl": "string",
         "earnedAt": "timestamp"

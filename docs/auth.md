@@ -88,6 +88,7 @@ Response Body (Unauthorized) :
 ```
 
 <!-- ## Logout -->
+// opsional 
 
 Endpoint : DELETE /api/auth/logout
 

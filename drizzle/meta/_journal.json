@@ -36,6 +36,20 @@
       "when": 1732099002233,
       "tag": "0004_superb_microbe",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1732438174408,
+      "tag": "0005_loving_blindfold",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1732520353912,
+      "tag": "0006_wise_speed",
+      "breakpoints": true
     }
   ]
 }
