@@ -23,15 +23,12 @@ export const posts = pgTable("posts", {
   body: text("body"),
 });
 
-// UserLearn Table Schema
-export const UserLearn = pgTable("user_learn", {
+// User Table
+export const User = pgTable("users", {
   id: serial("id").primaryKey(),
   email: varchar("email").unique().notNull(),
   hashedPassword: varchar("hashed_password").notNull(),
   name: varchar("name"),
-  telephone: varchar("telephone"),
-  address: text("address"),
-  dob: date("dob"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at").notNull().defaultNow(), //.onUpdateNow(),
   studyHour: integer("study_hour").default(0),
@@ -44,15 +41,15 @@ export const Auth = pgTable("auth", {
   hashedPassword: text("hashed_password").notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
-})
+});
 
 
 
 // units -> fk lessonId
 
-// badge table schema
+// badge table 
 export const Badge = pgTable("badge", {
-  badge_id: serial("id").primaryKey(),
+ badgeid: serial("badge_id").primaryKey(),
   title: text("title").notNull(),
   description: text("description"),
   imageUrl: text("image_url").notNull(),
@@ -61,11 +58,11 @@ export const Badge = pgTable("badge", {
   updatedat: timestamp("updatedat").defaultNow(),
 });
 
-// badge user table
+// badge user 
 export const UserBadge = pgTable("user_badge", {
-  user_badge_id: serial("id").primaryKey(),
-  user_id: integer("user_badge"),
-  badge_id: integer("badge_id"),
+  id: serial("id").primaryKey(),
+  userId: integer("user_badge").references(()=>User.id),
+  badgeId: integer("badge_id").references(()=>Badge.badgeid),
   earnedAt: timestamp("earned_at").defaultNow(),
   createdat: timestamp("createdat").defaultNow(),
   updatedat: timestamp("updatedat").defaultNow(),

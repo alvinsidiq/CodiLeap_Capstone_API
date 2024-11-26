@@ -4,7 +4,7 @@ import {
   RegisterUserRequestType,
   RegisterUserResponseType,
   UpdateUserRequestType,
-} from "@/core/models/user_learn_model";
+} from "@/core/models/user_model";
 import { eq } from "drizzle-orm";
 import { HTTPException } from "hono/http-exception";
 import { StatusCodes } from "http-status-codes";

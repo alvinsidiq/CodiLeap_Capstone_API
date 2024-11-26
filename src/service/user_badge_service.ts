@@ -1,12 +1,39 @@
-import db from "@/core/db/index_db";
-import {
-  registerUserBadgeType,
-  UpdateUserBadgeType,
-} from "@/core/models/user_badge_model";
+// import db from "@/core/db/index_db";
+// import { UserBadgeModel } from "@/core/models/user_badge_model";
+// import { BadgeModel } from "@/core/models/badge_model";
+// import { eq, and } from "drizzle-orm";
 
-import { UserBadge } from "@/core/db/schema/index_schema";
 
-import { eq } from "drizzle-orm";
+// export async function getUserBadges(userId: number) {
+//   // Fetch badges yang sudah diraih
+//   const earnedBadges = await db
+//     .select({
+//       id: UserBadgeModel.table.id,
+//       title: BadgeModel.table.title,
+//       description: BadgeModel.table.description,
+//       imageUrl: BadgeModel.table.imageUrl,
+//       earnedAt: UserBadgeModel.table.earnedAt,
+//     })
+//     .from(UserBadgeModel.table)
+//     .innerJoin(BadgeModel.table, eq(UserBadgeModel.table.badgeId, BadgeModel.table.id))
+//     .where(eq(UserBadgeModel.table.userId, userId));
+
+//     const availableBadges = await db
+//     .select({
+//       id: BadgeModel.table.id,
+//       title: BadgeModel.table.title,
+//       description: BadgeModel.table.description,
+//       requirements: BadgeModel.table.requirements,
+//     })
+//     .from(BadgeModel.table)
+//     .where(and(
+//       eq(BadgeModel.table.id, UserBadgeModel.table.badgeId, false),
+//       eq(UserBadgeModel.table.userId, userId, false)
+//     ));
+
+//   return { earnedBadges, availableBadges };
+// }
+
 
 export const registerUserBadge = async (data: registerUserBadgeType) => {
   try {

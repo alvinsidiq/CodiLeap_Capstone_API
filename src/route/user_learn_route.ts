@@ -2,7 +2,7 @@ import { Hono } from "hono";
 import { zValidator } from "@hono/zod-validator";
 import { StatusCodes } from "http-status-codes";
 import { ApiResponse } from "@/core/models/api_model";
-import { RegisterUserRequest, RegisterUserResponseType } from "@/core/models/user_learn_model";
+import { RegisterUserRequest, RegisterUserResponseType } from "@/core/models/user_model";
 import { errorValidationParser as validateErrorHandler } from "@/middleware/errorValidationParser";
 import { registerUser, getAllUsers, getUserById, updateUser, deleteUser } from "@/service/user_learn_service";
 

@@ -2,7 +2,7 @@ import { ApiResponse } from "@/core/models/api_model";
 import {
   RegisterUserRequestType,
   RegisterUserResponseType,
-} from "@/core/models/user_learn_model";
+} from "@/core/models/user_model";
 import {
   deleteUser,
   getAllUsers,

@@ -2,7 +2,7 @@ import {
   getUserController,
   loginUserController,
 } from "@/controller/user_controller";
-import { loginUserRequest } from "@/core/models/user_learn_model";
+import { loginUserRequest } from "@/core/models/user_model";
 import { zValidator } from "@hono/zod-validator";
 import { Hono } from "hono";
 

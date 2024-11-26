@@ -1,11 +1,15 @@
-import { z } from "zod";
+import { User, UserBadge } from "@/core/db/schema/index_schema";
+import { relations } from "drizzle-orm";
 
-export const UserModulProgres = z.object({
-  user_id: z.number().min(1),
-  module_id: z.number().min(1),
-  current_lesson: z.number().min(1),
-});
+// Relasi User
+export const userRelations = relations(User, ({ many }) => ({
+  earnedBadges: many(UserBadge, {
+    fields: [User.id],
+    references: [UserBadge.userId],
+  }),
+}));
 
-export type registerUserModulProgresType = z.infer<typeof UserModulProgres>;
-
-export type UpdateUserModulProgresType = Partial<registerUserModulProgresType>;
+export const UserModel = {
+  table: User,
+  relations: userRelations,
+};
